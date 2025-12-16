@@ -1,10 +1,14 @@
 [tool.poetry]
-name = "econ_analysis_gbm2118"
+name = "econ-analysis-gbm2118"
 version = "0.1.0"
 description = "A package for loading, merging and analyzing econand governance data"
 authors = ["Gorata Malose"]
 license = "MIT"
 readme = "README.md"
+
+packages = [
+    { include = "econ_analysis_gbm2118", from = "src" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.14"
@@ -13,6 +17,7 @@ numpy = "^2.3.5"
 matplotlib = "^3.10.8"
 seaborn = "^0.13.2"
 pytest = "^9.0.2"
+openpyxl = "^3.1.5"
 
 [tool.semantic_release]
 version_toml = [
@@ -32,6 +37,3 @@ dev = [
     "sphinx-autoapi (>=3.6.1,<4.0.0)",
     "sphinx-rtd-theme (>=3.0.2,<4.0.0)"
 ]
-
-[tool.poetry.packages]
-include = "econ_analysis_gbm2118"

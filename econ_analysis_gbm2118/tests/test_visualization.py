@@ -5,7 +5,7 @@ import pytest
 # Use a non-interactive backend to prevent GUI windows
 matplotlib.use("Agg")
 
-from econ_analysis_2118.visualization import plot_eci_vs_gci
+from econ_analysis_gbm2118.visualization import plot_eci_vs_gci
 
 
 def test_plot_runs_with_basic_data():

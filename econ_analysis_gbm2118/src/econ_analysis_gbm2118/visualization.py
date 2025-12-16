@@ -30,8 +30,16 @@ def plot_eci_vs_gci(df, x_var='eci_sitc', y_var='wef_gci'):
     The function drops rows with missing values in either ``x_var`` or
     ``y_var`` prior to plotting.
     """
-    sns.set(style="whitegrid")
+    if x_var not in df.columns or y_var not in df.columns:
+        return None
+
     df_plot = df.dropna(subset=[x_var, y_var])
-    sns.scatterplot(data=df_plot, x=x_var, y=y_var)
-    plt.title(f"Scatterplot of {y_var} vs {x_var}")
+
+    if df_plot.empty:
+        return None
+
+    plt.scatter(df_plot[x_var], df_plot[y_var])
+    plt.xlabel(x_var)
+    plt.ylabel(y_var)
+    plt.title("ECI vs GCI")
     plt.show()

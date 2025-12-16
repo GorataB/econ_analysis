@@ -28,8 +28,21 @@ def merge_datasets(df_harvard: pd.DataFrame, df_qog: pd.DataFrame) -> pd.DataFra
     KeyError
         If required merge columns are missing from the input DataFrames.
     """
-    merged = df_harvard.merge(df_qog, left_on="country_iso3_code", right_on="ccodealp", how="left")
-    merged = merged.drop(columns=[col for col in ['ccodealp', 'year'] if col in merged.columns])
+    merged = df_harvard.merge(
+        df_qog,
+        left_on="country_iso3_code",
+        right_on="ccodealp",
+        how="left",
+        suffixes=("", "_qog")
+    )
+
+    # Prefer QOG versions if they exist
+    for col in ["bti_ep", "bti_eos"]:
+        if f"{col}_qog" in merged.columns:
+            merged[col] = merged[f"{col}_qog"]
+            merged.drop(columns=[f"{col}_qog"], inplace=True)
+
+    merged.drop(columns=["ccodealp"], errors="ignore", inplace=True)
     return merged
 
 def fill_and_clip_numeric(merged: pd.DataFrame) -> pd.DataFrame:
@@ -55,13 +68,17 @@ def fill_and_clip_numeric(merged: pd.DataFrame) -> pd.DataFrame:
     -----
     Non-numeric columns are left unchanged.
     """
-    numeric_cols = merged.select_dtypes(include=[np.number]).columns.tolist()
+    numeric_cols = merged.select_dtypes(include="number").columns
+
     for col in numeric_cols:
-        median_val = merged[col].median()
-        merged[col] = merged[col].fillna(median_val)
-        lower = merged[col].quantile(0.01)
-        upper = merged[col].quantile(0.99)
-        merged[col] = merged[col].clip(lower, upper)
+       median = merged[col].median()
+       merged[col] = merged[col].fillna(median)
+
+       lower = merged[col].quantile(0.01)
+       upper = merged[col].quantile(0.99)
+
+       merged[col] = merged[col].clip(lower=lower, upper=upper)
+
     return merged
 
 def clean_country_names(merged: pd.DataFrame) -> pd.DataFrame:
