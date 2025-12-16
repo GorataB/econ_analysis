@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "econ-analysis-gbm2118"
-version = "0.1.0"
+version = "0.1.1"
 description = "A package for loading, merging and analyzing econand governance data"
 authors = ["Gorata Malose"]
 license = "MIT"
