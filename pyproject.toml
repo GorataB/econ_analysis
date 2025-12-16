@@ -1,0 +1,24 @@
+[project]
+name = "econ-analysis-gbm2118"
+version = "0.1.0"
+description = "Merging, cleaning and analysis of econ and governance data"
+authors = [
+    {name = "gorata",email = "gbm2118@columbia.edu"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "myst-nb (>=1.3.0,<2.0.0)",
+    "sphinx-autoapi (>=3.6.1,<4.0.0)",
+    "sphinx-rtd-theme (>=3.0.2,<4.0.0)"
+]
